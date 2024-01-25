@@ -1,0 +1,33 @@
+name: TCI SIT
+
+on:
+  push:
+   # inputs:
+   #   branch_name:
+   #     description: Branch Name
+   #     required: true
+   #   build_number:
+   #     description: Build Number
+   #     required: false
+   #   workflow_type:
+   #     description: Workflow Type
+   #     required: true
+   #     default: Build-Deploy
+   #   instance_count:
+   #     description: Instance Count
+   #     required: true
+   #     default: 0
+   #   instance_name:
+   #     description: 'Instance-Name'
+   #     required: false
+   #   Sharedmodule_instance_name:
+   #     description: 'Shared-module-Instance-Name'
+   #     required: false
+jobs:
+  steps:
+    - name: Read CSV
+      run: |
+        python new.py
+      env:
+        csv_path: calling-workflows/Inputs.csv
+      
