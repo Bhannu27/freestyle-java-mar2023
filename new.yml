@@ -24,10 +24,10 @@ on:
    #     description: 'Shared-module-Instance-Name'
    #     required: false
 jobs:
-  steps:
-    - name: Read CSV
-      run: |
-        python new.py
-      env:
-        csv_path: calling-workflows/Inputs.csv
+    steps:
+      - name: Read CSV
+        run: |
+          python new.py
+        env:
+          csv_path: calling-workflows/Inputs.csv
       
