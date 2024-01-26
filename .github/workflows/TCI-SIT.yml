@@ -28,14 +28,14 @@ jobs:
   my-job:
     runs-on: ubuntu-latest
     steps:
- #   - name: Checkout Repository
- #     uses: actions/checkout@v2
+    - name: Checkout Repository
+      uses: actions/checkout@v2
 
     - name: List repo contents
       run: ls -R
       
     - name: Read CSV
       run: |
-        python new.py
+        python sample.py
       env:
         csv_path: .github/workflows/Inputs.csv 
