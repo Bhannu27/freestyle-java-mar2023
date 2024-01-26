@@ -37,8 +37,10 @@ jobs:
     - name: Read CSV
       run: |
         csv_values= $(python .github/workflows/new.py)
-        echo "CSV value: $csv_values"
+      #  echo "CSV value: $csv_values"
       env:
         csv_path: .github/workflows/Inputs.csv
+
+    
 
         
