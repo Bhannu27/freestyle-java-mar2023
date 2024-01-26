@@ -35,4 +35,4 @@ jobs:
       run: |
         python new.py
       env:
-        csv_path: calling-workflows/Inputs.csv
+        csv_path: .github/workflows/new.py
