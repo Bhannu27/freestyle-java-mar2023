@@ -30,9 +30,12 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
+
+    - name: List repo contents
+      run: ls -R
       
     - name: Read CSV
       run: |
         python new.py
       env:
-        csv_path: .github/workflows/new.py
+        csv_path: .github/workflows/Inputs.csv 
