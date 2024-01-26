@@ -1,5 +1,4 @@
 name: TCI SIT
-
 on:
   push:
     branches:
