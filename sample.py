@@ -8,14 +8,18 @@ with open(csv_file_path, 'r') as file:
     row = next(csv_reader)  # Assuming only one row in the CSV, adjust if needed
  
     # Extract values from the row
-    values = [row['BranchName'], row['BuildNumber'], row['WorkflowType'], row['InstanceName'], row['InstanceCount'], row['SharedModuleInstanceName']]
- 
-    # Assign values to variables
-    branch_name, build_number, workflow_type, instance_name, instance_count, shared_module_instance_name = values
+    branch_name = row.get('BranchName', '')
+    build_number = row.get('BuildNumber', '')
+    workflow_type = row.get('WorkflowType', '')
+    instance_name = row.get('InstanceName', '')
+    instance_count = row.get('InstanceCount', '')
+    shared_module_instance_name = row.get('SharedModuleInstanceName', '')
  
     # Print original csv_values
-    csv_values = ",".join(values)
-    #print("values:", '{csv_values}')
+    csv_values = ",".join([branch_name, build_number, workflow_type, instance_name, instance_count, shared_module_instance_name])
+    print("Original CSV Values:", csv_values)
+ 
+    # Print variables for verification
     print("Branch Name Variable:", branch_name)
     print("Build Number Variable:", build_number)
     print("Workflow Type Variable:", workflow_type)
