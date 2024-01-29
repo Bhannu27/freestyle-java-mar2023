@@ -14,7 +14,8 @@ with open(csv_file_path, 'r') as file:
         shared_module_instance_name = row['SharedModuleInstanceName']
 
         print(f" {instance_name} from branch {branch_name}")
-        instance_name = f'"{instance_name}"'
+        command = ['bw.mc-new', instance_name]
+        subprocess.run(command)
         result = {
             'branch_name': branch_name,
             'build_number': build_number,
