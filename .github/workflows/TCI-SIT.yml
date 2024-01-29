@@ -38,13 +38,19 @@ jobs:
 
     - name: List repo contents
       run: ls -R
+
+    - name: make script executable
+      run: chmod +x sample.py
+
+    - name: execute python script
+      run: ./new.py
       
-    - name: Read CSV
-      run: |
-        csv_values= $(python sample.py)
-        echo "CSV value: $csv_values"
-      env:
-        csv_path: .github/workflows/Inputs.csv
+ #   - name: Read CSV
+ #     run: |
+ #       csv_values= $(python sample.py)
+ #       echo "CSV value: $csv_values"
+ #     env:
+ #       csv_path: .github/workflows/Inputs.csv
 
     
 
