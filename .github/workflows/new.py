@@ -14,6 +14,17 @@ with open(csv_file_path, 'r') as file:
         shared_module_instance_name = row['SharedModuleInstanceName']
 
         print(f" {instance_name} from branch {branch_name}")
+        result = {
+            'branch_name': branch_name,
+            'build_number': build_number,
+            'workflow_type': workflow_type,
+            'instance_count': instance_count,
+            'instance_name': instance_name,
+            'shared_module_instance_name': shared_module_instance_name
+        }
+        print("Processed data:", result)
+
+
   #  row = next(csv_reader)
  
   #  os.environ['BRANCH_NAME'] = row['BranchName']
