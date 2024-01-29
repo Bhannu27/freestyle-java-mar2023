@@ -13,7 +13,8 @@ with open(csv_file_path, 'r') as file:
         instance_name = row['InstanceName']
         shared_module_instance_name = row['SharedModuleInstanceName']
 
-        print(f" '{instance_name}' from branch {branch_name}")
+        print(f" {instance_name} from branch {branch_name}")
+        instance_name = f'"{instance_name}"'
         result = {
             'branch_name': branch_name,
             'build_number': build_number,
