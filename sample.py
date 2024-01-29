@@ -1,24 +1,24 @@
 import csv
 import os
-
+ 
 csv_file_path = os.environ['csv_path']
  
 with open(csv_file_path, 'r') as file:
     csv_reader = csv.DictReader(file)
-    for row in csv_reader:
-        branch_name = row['BranchName']
-        build_number = row['BuildNumber']
-        workflow_type = row['WorkflowType']
-        instance_count = row['InstanceCount']
-        instance_name = row['InstanceName']
-        shared_module_instance_name = row['SharedModuleInstanceName']
-
-        print(f"procesing {instance_name} from branch {branch_name}")
-  #  row = next(csv_reader)
+    row = next(csv_reader)  # Assuming only one row in the CSV, adjust if needed
  
-  #  os.environ['BRANCH_NAME'] = row['BranchName']
-  #  os.environ['BUILD_NUMBER'] = row['BuildNumber']
-  # os.environ['WORKFLOW_TYPE'] = row['WorkflowType']
-  #  os.environ['INSTANCE_COUNT'] = row['InstanceCount']
-  #  os.environ['INSTANCE_NAME'] = row['InstanceName']
-  #  os.environ['SHARED_MODULE_INSTANCE_NAME'] = row['SharedModuleInstanceName']
+    # Extract values from the row
+    values = [row['BranchName'], row['BuildNumber'], row['WorkflowType'], row['InstanceName'], row['InstanceCount'], row['SharedModuleInstanceName']]
+ 
+    # Assign values to variables
+    branch_name, build_number, workflow_type, instance_name, instance_count, shared_module_instance_name = values
+ 
+    # Print original csv_values
+    csv_values = ",".join(values)
+    print(f"Original CSV Values: {csv_values}")
+    print("Branch Name Variable:", branch_name)
+    print("Build Number Variable:", build_number)
+    print("Workflow Type Variable:", workflow_type)
+    print("Instance Name Variable:", instance_name)
+    print("Instance Count Variable:", instance_count)
+    print("Shared Module Instance Name Variable:", shared_module_instance_name)
