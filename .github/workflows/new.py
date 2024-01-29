@@ -10,11 +10,11 @@ with open(csv_file_path, 'r') as file:
         build_number = row['BuildNumber']
         workflow_type = row['WorkflowType']
         instance_count = row['InstanceCount']
-        instance_name = row['InstanceName']
+     #   instance_name = row['InstanceName']
         shared_module_instance_name = row['SharedModuleInstanceName']
 
-        print(f" '{instance_name}' from branch {branch_name}")
-        instance_name = f'"{instance_name}"'
+      #  print(f" '{instance_name}' from branch {branch_name}")
+       # instance_name = f'"{instance_name}"'
         result = {
             'branch_name': branch_name,
             'build_number': build_number,
