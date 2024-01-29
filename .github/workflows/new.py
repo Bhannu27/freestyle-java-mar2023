@@ -23,7 +23,7 @@ with open(csv_file_path, 'r') as file:
    #         'instance_name': instance_name,
             'shared_module_instance_name': shared_module_instance_name
         }
-        print("Processed data:", result)
+        print("data:", result)
 
 
   #  row = next(csv_reader)
