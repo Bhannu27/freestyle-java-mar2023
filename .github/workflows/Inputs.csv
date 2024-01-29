@@ -1,2 +1,2 @@
 BranchName,BuildNumber,WorkflowType,InstanceCount,InstanceName,SharedModuleInstanceName
-main,1,build,1,bw.mc-new,polaris 
+main,1,build,1,bw.mc,polaris 
