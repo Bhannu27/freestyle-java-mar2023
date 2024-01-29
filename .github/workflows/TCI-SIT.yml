@@ -43,7 +43,7 @@ jobs:
       run: chmod +x sample.py
 
     - name: execute python script
-      run: ./new.py
+      run: ./sample.py
       
  #   - name: Read CSV
  #     run: |
