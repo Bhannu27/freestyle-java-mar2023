@@ -1,6 +1,5 @@
 import csv
 import os
-import subprocess
 
 csv_file_path = os.environ['csv_path']
  
@@ -15,6 +14,7 @@ with open(csv_file_path, 'r') as file:
         shared_module_instance_name = row['SharedModuleInstanceName']
 
         print(f" '{instance_name}' from branch {branch_name}")
+        instance_name = f'"{instance_name}"'
         result = {
             'branch_name': branch_name,
             'build_number': build_number,
