@@ -15,7 +15,7 @@ with open(csv_file_path, 'r') as file:
  
     # Print original csv_values
     csv_values = ",".join(values)
-    print("values:", '{csv_values}')
+    #print("values:", '{csv_values}')
     print("Branch Name Variable:", branch_name)
     print("Build Number Variable:", build_number)
     print("Workflow Type Variable:", workflow_type)
