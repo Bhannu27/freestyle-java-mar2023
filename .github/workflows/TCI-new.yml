@@ -38,3 +38,32 @@ jobs:
       DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
       SIT_TCI_CLIENT_ID: ${{ secrets.SIT_TCI_CLIENT_ID }}
       SIT_TCI_CLIENT_SECRET: ${{ secrets.SIT_TCI_CLIENT_SECRET }}
+
+
+import csv
+import os
+import sys
+
+print('Get current working directory : ', os.getcwd())
+csv_file = os.path.abspath('Inputs.csv')
+print('here is the', csv_file)
+with open(csv_file, "r") as file:
+    csv_reader = csv.DictReader(file)
+    row = next(csv_reader, {})
+    
+    branch_name = row.get('BranchName', '')
+    build_number = row.get('BuildNumber', '')
+    workflow_type = row.get('WorkflowType', '')
+    instance_name = row.get('InstanceName', '')
+    instance_count = row.get('InstanceCount', '')
+    shared_module_instance_name = row.get('SharedModuleInstanceName', '')
+
+    csv_values = ",".join([branch_name, build_number, workflow_type, instance_name, instance_count, shared_module_instance_name])
+    print("Original CSV Values:", csv_values)
+
+    print("Branch Name Variable:", branch_name)
+    print("Build Number Variable:", build_number)
+    print("Workflow Type Variable:", workflow_type)
+    print("Instance Name Variable:", instance_name)
+    print("Instance Count Variable:", instance_count)
+    print("Shared Module Instance Name Variable:", shared_module_instance_name)
