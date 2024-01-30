@@ -2,7 +2,7 @@ name: TCI SIT
 on:
   push:
     branches:
-      - main
+      - development
    # inputs:
    #   branch_name:
    #     description: Branch Name
