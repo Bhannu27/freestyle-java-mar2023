@@ -6,7 +6,7 @@ on:
    branches:
      - sample-list
    paths:
-     - "**/repo_list_new.yml"
+     - "**/repo_list.yml"
      - "**/repo-list-new.sh"
 env:      
   HTTP_PROXY: ${{ secrets.CHC_HTTP_PROXY }}
