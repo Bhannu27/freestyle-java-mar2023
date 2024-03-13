@@ -1,0 +1,40 @@
+name: Information
+on:
+  push:
+    branches:
+      - TCM-prod
+    paths:
+      - "Information/name.txt"
+      
+jobs:
+  create_queues:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install cURL
+        run: sudo apt-get -y install curl
+        
+      - name: Empty response.log
+        run: |
+          echo "" > Information/response.log
+
+      - name: Run Info.sh
+        run: |
+          chmod +x Information/Info.sh
+          ./Information/Info.sh ${{ secrets.PROD_BEARER_TOKEN }}
+
+
+      #- name: Add response to response.log
+      #  run: |
+      #    echo "${{ steps.get_response.outputs.response }}" >> response.log
+
+      - name: Commit changes
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add Information/response.log
+          git commit -m "Update response.log"
+          git push origin TCM-prod
