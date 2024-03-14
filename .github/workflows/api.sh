@@ -45,3 +45,10 @@ function get_tci_token() {
   TCI_TOKEN_EXPIRE_DATE="$(date --date="+${expires_in} seconds" '+%Y-%m-%d-%H-%M-%S')"
   export TCI_TOKEN_EXPIRE_DATE
 }
+
+function get_apps() {
+
+  echoerr "Getting apps"
+  invoke_tci_v1_rest_api "200" "GET" "apps"
+  echoerr "Got apps"
+}
