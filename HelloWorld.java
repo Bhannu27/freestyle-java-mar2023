@@ -2,7 +2,8 @@ public class HelloWorld {
 
    public static void main(String[] args) {
 
-      System.out.println("how are you");
+      System.out.print("how are you, I'm doing good!!");
+      System.out.print("great");
 
    }
 
