@@ -23,6 +23,9 @@ jobs:
       
     - name: Check for merge conflict
       run: |
+        echo "Running git diff."
+        git diff
+        echo "checking for merge conflcit"
         if git diff --check | grep -q '<<<<<<<'; then
           echo "Merge conflict detected, sending email notification..."
           echo "Merge conflict detected in repository: $(git rev-parse --show-toplevel)" | mail -s "Merge Conflict Notification" bhannu.kasula@gmail.com
