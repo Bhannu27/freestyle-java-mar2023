@@ -1,7 +1,7 @@
 name: Merge Conflict Detection
  
 on:
-  pull_request_target:
+  pull_request:
     types: [opened, reopened, synchronize]
  
 jobs:
@@ -11,21 +11,11 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-  #    with:
-  #      ref: ${{ github.event.pull_request.head.sha }}
-  #      repository: ${{ github.event.pull_request.head.repo.full_name }}
-        
-   # - name: Install git
-   #   run: sudo apt-get install git -y
-      
-   # - name: Merge PR
-   #   run: git merge ${{ github.event.pull_request.head.sha }}
-      
-    - name: Check for merge conflict
+ 
+    - name: Merge PR
       run: |
-        if git diff --name-only | grep -q '^'; then
+        if ! git merge --no-commit ${{ github.event.pull_request.head.sha }}; then
           echo "Merge conflict detected, sending email notification..."
           echo "Merge conflict detected in repository: $(git rev-parse --show-toplevel)" | mail -s "Merge Conflict Notification" bhannu.kasula@gmail.com
-        else
-          echo "No merge conflict detected."
+          exit 1
         fi
