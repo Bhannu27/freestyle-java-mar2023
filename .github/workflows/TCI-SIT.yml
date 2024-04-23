@@ -1,8 +1,8 @@
 name: TCI SIT
-on:
-  push:
-    branches:
-      - main
+#on:
+#  push:
+#    branches:
+#      - main
    # inputs:
    #   branch_name:
    #     description: Branch Name
