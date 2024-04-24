@@ -1,7 +1,7 @@
 name: Merge Conflict Detection
  
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, reopened, synchronize]
  
 jobs:
@@ -11,10 +11,12 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+        repository: ${{ github.event.pull_request.head.repo.full_name }}
  
     - name: Check for merge conflict
       run: |
-        # Check for unmerged files, indicating merge conflicts
         if git ls-files -u | grep -q '^'; then
           echo "Merge conflict detected, sending email notification..."
           echo "Merge conflict detected in repository: $(git rev-parse --show-toplevel)" | mail -s "Merge Conflict Notification" bhannu.kasula@gmail.com
