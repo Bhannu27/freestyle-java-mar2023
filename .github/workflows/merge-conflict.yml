@@ -14,16 +14,16 @@ jobs:
       with:
         ref: ${{ github.event.pull_request.head.sha }}
         repository: ${{ github.event.pull_request.head.repo.full_name }}
-        
-    - name: Install git
-      run: sudo apt-get install git -y
-      
-    - name: Merge PR
-      run: git merge ${{ github.event.pull_request.head.sha }}
-      
+
     - name: Check for merge conflict
       run: |
-        if git diff --check | grep -q '<<<<<<<'; then
+        # Get the PR number from the event payload
+        PR_NUMBER=$(jq -r ".pull_request.number" "$GITHUB_EVENT_PATH")
+        # Get the PR files that have conflicts using GitHub API
+        CONFLICT_FILES=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/files" | jq -r '.[] | select(.status == "conflicted") | .filename')
+ 
+        # If there are conflicted files, send email notification
+        if [ -n "$CONFLICT_FILES" ]; then
           echo "Merge conflict detected, sending email notification..."
           echo "Merge conflict detected in repository: $(git rev-parse --show-toplevel)" | mail -s "Merge Conflict Notification" bhannu.kasula@gmail.com
         else
