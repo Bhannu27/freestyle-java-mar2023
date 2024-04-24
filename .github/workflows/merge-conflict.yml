@@ -22,5 +22,4 @@ jobs:
           echo "Merge conflict detected in repository: $(git rev-parse --show-toplevel)" | mail -s "Merge Conflict Notification" bhannu.kasula@gmail.com
         else
           echo "No merge conflict detected."
-          exit 78  # Exit with a neutral status code to prevent further execution of the workflow
         fi
