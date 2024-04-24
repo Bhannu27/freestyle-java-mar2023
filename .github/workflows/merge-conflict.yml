@@ -1,7 +1,7 @@
 name: Merge Conflict Detection
  
 on:
-  pull_request_target:
+  pull_request:
     types: [opened, reopened, synchronize]
  
 jobs:
@@ -11,21 +11,14 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-   #   with:
-   #     ref: ${{ github.event.pull_request.head.sha }}
-   #     repository: ${{ github.event.pull_request.head.repo.full_name }}
-
+ 
     - name: Check for merge conflict
       run: |
-        # Get the PR number from the event payload
-        PR_NUMBER=$(jq -r ".pull_request.number" "$GITHUB_EVENT_PATH")
-        # Get the PR files that have conflicts using GitHub API
-        CONFLICT_FILES=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/files" | jq -r '.[] | select(.status == "conflicted") | .filename')
- 
-        # If there are conflicted files, send email notification
-        if [ -n "$CONFLICT_FILES" ]; then
+        # Check for unmerged files, indicating merge conflicts
+        if git ls-files -u | grep -q '^'; then
           echo "Merge conflict detected, sending email notification..."
           echo "Merge conflict detected in repository: $(git rev-parse --show-toplevel)" | mail -s "Merge Conflict Notification" bhannu.kasula@gmail.com
         else
           echo "No merge conflict detected."
+          exit 78  # Exit with a neutral status code to prevent further execution of the workflow
         fi
