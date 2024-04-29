@@ -1,25 +1,24 @@
-name: Merge Conflict Detection
+name: Merge Conflict Resolution
  
 on:
-  pull_request_target:
+  pull_request:
     types: [opened, reopened, synchronize]
  
 jobs:
-  merge-conflict-detection:
+  merge-conflict-resolution:
     runs-on: ubuntu-latest
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.pull_request.head.sha }}
-        repository: ${{ github.event.pull_request.head.repo.full_name }}
- 
-    - name: Check for merge conflict
+      
+    - name: Run merge conflict resolution script
       run: |
-        if git ls-files -u | grep -q '^'; then
-          echo "Merge conflict detected, sending email notification..."
-          echo "Merge conflict detected in repository: $(git rev-parse --show-toplevel)" | mail -s "Merge Conflict Notification" bhannu.kasula@gmail.com
+        # Run the merge conflict resolution script
+        if bash resolve_merge_conflicts.sh; then
+          echo "Merge conflicts resolved successfully."
         else
-          echo "No merge conflict detected."
+          echo "Merge conflicts detected. Sending email notification..."
+          echo "Merge conflicts detected in repository: $(git rev-parse --show-toplevel)" | mail -s "Merge Conflict Notification" bhavana.kasula@gmail.com
+          exit 1
         fi
