@@ -23,7 +23,7 @@ jobs:
     - name: Check for Merge Conflict
       run: |
         # Replace with your personal access token stored as a secret (e.g., ${{ secrets.GITHUB_TOKEN }})
-        github_token=${{ secrets.GITHUB_TOKEN }}
+        github_token=${{ secrets.MY_GITHUB_TOKEN }}
         pull_request_number=${{ github.event.pull_request.number }}
         base_branch=${{ github.event.pull_request.base.ref }}
         head_branch=${{ github.event.pull_request.head.ref }}
@@ -37,7 +37,7 @@ jobs:
     - name: Send Email Notification (if conflict detected)
       run: |
         if [ $? -eq 0 ]; then
-          exit 0  # Exit if no conflicts (previous step exit code)
+          exit 0  # Exit if no conflicts
         fi
         # Replace with your email address stored as a secret (e.g., ${{ secrets.RECIPIENT_EMAIL }})
         recipient_email=${{ secrets.RECIPIENT_EMAIL }}
