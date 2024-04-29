@@ -11,10 +11,12 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+        repository: ${{ github.event.pull_request.head.repo.full_name }}
       
     - name: Run merge conflict resolution script
       run: |
-        # Run the merge conflict resolution script
         if bash resolve_merge_conflicts.sh; then
           echo "Merge conflicts resolved successfully."
         else
