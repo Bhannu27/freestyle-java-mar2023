@@ -2,6 +2,18 @@ import gitpython
 from github import Github
  
 def check_merge_conflict(pull_request_number, base_branch, head_branch, github_token):
+  """
+  This function checks for merge conflicts between a pull request head branch and base branch using the GitHub API.
+ 
+  Args:
+      pull_request_number: The pull request number.
+      base_branch: The name of the base branch.
+      head_branch: The name of the head branch (usually the pull request branch).
+      github_token: A personal access token with repo permissions.
+ 
+  Returns:
+      True if there are no merge conflicts, False otherwise.
+  """
  
   # Create a GitHub object using your personal access token
   github = Github(github_token)
@@ -21,7 +33,7 @@ def check_merge_conflict(pull_request_number, base_branch, head_branch, github_t
  
 # Example usage (assuming you have logic to send email using send_email.py)
 if __name__ == "__main__":
-# your logic to retrieve pull_request_number, base_branch, head_branch, and github_token
+  # ... (your logic to retrieve pull_request_number, base_branch, head_branch, and github_token)
   if check_merge_conflict(pull_request_number, base_branch, head_branch, github_token):
     print("No merge conflicts detected.")
   else:
