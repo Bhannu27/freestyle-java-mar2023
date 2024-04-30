@@ -1,24 +1,42 @@
-name: Merge Conflict Resolution
+name: Merge Conflict Notification (Zap Integration)
  
 on:
   pull_request:
-    types: [opened, reopened, synchronize]
+    types: [merged]  # Trigger only on merged pull requests
  
 jobs:
-  merge-conflict-resolution:
+  merge_conflict_check:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout code
+    - name: Checkout repository
       uses: actions/checkout@v2
       
-    - name: Run merge conflict resolution script
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+      
+    - name: Install dependencies
+      run: pip install gitpython requests  # Add libraries for API access
+ 
+    - name: Check for Merge Conflict
       run: |
-        # Run the merge conflict resolution script
-        if bash resolve_merge_conflicts.sh; then
-          echo "Merge conflicts resolved successfully."
+        # Replace with your personal access token stored as a secret (e.g., ${{ secrets.GITHUB_TOKEN }})
+        github_token=${{ secrets.MY_GITHUB_TOKEN }}
+        pull_request_number=${{ github.event.pull_request.number }}
+        base_branch=${{ github.event.pull_request.base.ref }}
+        head_branch=${{ github.event.pull_request.head.ref }}
+ 
+        if python check_merge_conflict.py $pull_request_number $base_branch $head_branch $github_token; then
+          echo "No merge conflicts detected."
         else
-          echo "Merge conflicts detected. Sending email notification..."
-          echo "Merge conflicts detected in repository: $(git rev-parse --show-toplevel)" | mail -s "Merge Conflict Notification" bhavana.kasula@gmail.com
-          exit 1
+          echo "Merge conflicts detected. Triggering Zap notification..."
+          curl -X POST https://your-zapier-webhook.com/payload="merge_conflict=true"
+        fi
+ 
+    - name: Run subsequent steps
+      run: |
+        if [ $? -eq 0 ]; then
+          echo "No merge conflicts detected. Proceeding with further actions..."
         fi
