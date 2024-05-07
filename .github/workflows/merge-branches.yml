@@ -15,4 +15,6 @@ jobs:
  
     - name: Run Bash script
       run: |
-         bash script/merge_branches.sh
+         while IFS= read -r repo; do
+           bash script/merge_branches.sh "$repo"
+         done < repositories.txt
