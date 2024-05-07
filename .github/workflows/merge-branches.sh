@@ -24,6 +24,6 @@ merge_repo() {
 }
  
 # Loop through each repository in the list
-while IFS= read -r repo; do
+for repo in "$@" do
     merge_repo "$repo"
-done < repositories.txt
+done
