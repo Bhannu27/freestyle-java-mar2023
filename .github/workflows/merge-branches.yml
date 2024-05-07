@@ -1,20 +1,33 @@
 name: Merge Development to Master
- 
 on:
   push:
-    branches:
-      - development # Trigger the workflow on pushes to the development branch
+    branches: [ main ]  # This workflow runs only on pushes to the main branch
  
 jobs:
-  merge-branches:
+  merge:
     runs-on: ubuntu-latest
- 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - uses: actions/checkout@v3  # Checkout the repository code
+      - name: Run merge script
+        run: |
+          chmod +x merge_branches.sh  # Make the script executable
+          ./merge_branches.sh
  
-    - name: Run Bash script
-      run: |
-         while IFS= read -r repo; do
-           bash script/merge_branches.sh "$repo"
-         done < repositories.txt
+#on:
+#  push:
+#    branches:
+#      - development # Trigger the workflow on pushes to the development branch
+ 
+#jobs:
+#  merge-branches:
+#    runs-on: ubuntu-latest
+ 
+ #   steps:
+#    - name: Checkout code
+  #    uses: actions/checkout@v2
+ 
+   # - name: Run Bash script
+    #  run: |
+     #    while IFS= read -r repo; do
+      #     bash script/merge_branches.sh "$repo"
+       #  done < repositories.txt
