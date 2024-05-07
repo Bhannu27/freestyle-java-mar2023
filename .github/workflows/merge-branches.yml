@@ -1,17 +1,20 @@
-name: Merge Development to Master
+name: Merge Development to Main
+
 on:
-  push:
-    branches: [ main ]  # This workflow runs only on pushes to the main branch
- 
+  pull_request:
+    branches:
+      - development
+
 jobs:
   merge:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3  # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Run merge script
-        run: |
-          chmod +x merge_branches.sh  # Make the script executable
-          ./merge_branches.sh
+        run: python merge_repos.py
  
 #on:
 #  push:
