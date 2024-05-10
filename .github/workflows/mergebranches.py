@@ -1,4 +1,3 @@
-
 import os
 import subprocess
 import requests
@@ -23,6 +22,8 @@ def merge_branches(github_token, git_email, git_username):
     main_branch = "main"
     dev_branch = "development"
     repo_file = "calling-workflows/repository.txt"
+
+    current_dir = os.getcwd()
  
     with open(repo_file, 'r') as file:
         for repo_name in file:
@@ -41,7 +42,7 @@ def merge_branches(github_token, git_email, git_username):
                 continue
  
             # Navigate to the repository directory
-            #os.chdir(repo_name)
+            os.chdir(repo_name)
  
             # Set the remote URL of the repository to the clone URL
             print(f"setting remote URL to: {clone_url}",flush=True)
@@ -66,17 +67,20 @@ def merge_branches(github_token, git_email, git_username):
             # Merge development branch into main branch
             print(f"Merging {dev_branch} into {main_branch}..",flush=True)
             subprocess.run(["git", "checkout", main_branch])
-            subprocess.run(["git", "merge", "--no-ff", "--allow-unrelated-histories", dev_branch, "-m", f"Merge {dev_branch} into {main_branch}"])
+            subprocess.run(["git", "merge", "--no-ff", "--allow-unrelated-histories", "--no-verify", dev_branch, "-m", f"Merge {dev_branch} into {main_branch}"])
  
             # Push changes to GitHub
             print("Pushing changes", flush=True)
             subprocess.run(["git", "push", "origin", main_branch])
+            
+            #navigate back to the initial directory
+            os.chdir("..")
 
 def check_merge_conflicts(repo_name):
     # Check for merge conflicts
     print("Checking for merge conflicts in repository: {repo_name}...", flush=True)
     result = subprocess.run(["git", "diff", "--name-only", "--diff-filter=U"], capture_output=True, text=True)
-    Print("Merge result", result)
+    Print("Merge result", result.stdout)
     conflict_files = result.stdout.splitlines()
     if conflict_files:
         print("Merge conflict detected. Conflicting files:")
