@@ -1,3 +1,4 @@
+
 import os
 import subprocess
 import requests
@@ -18,7 +19,7 @@ def fetch_repository_details(repo_name, github_token):
         print(f"Response: {response.text}")
         return None
  
-def merge_branches(github_token, git_email, git_username):
+def merge_branches(github_token, git_email, git_username, workspace):
     main_branch = "main"
     dev_branch = "development"
     repo_file = "calling-workflows/repository.txt"
@@ -42,7 +43,9 @@ def merge_branches(github_token, git_email, git_username):
                 continue
  
             # Navigate to the repository directory
-            os.chdir(repo_name)
+            repo_path = os.path.join(workspace, repo_name)
+            os.makedirs(repo_path, exist_ok=True)
+            os.chdir(repo_path)
  
             # Set the remote URL of the repository to the clone URL
             print(f"setting remote URL to: {clone_url}",flush=True)
@@ -74,7 +77,7 @@ def merge_branches(github_token, git_email, git_username):
             subprocess.run(["git", "push", "origin", main_branch])
             
             #navigate back to the initial directory
-            os.chdir("..")
+            os.chdir(current_dir)
 
 def check_merge_conflicts(repo_name):
     # Check for merge conflicts
@@ -93,4 +96,5 @@ if __name__ == "__main__":
     github_token = sys.argv[1]
     git_email = sys.argv[2]
     git_username = sys.argv[3]
-    merge_branches(github_token, git_email, git_username)
+    workspace = sys.argv[4]
+    merge_branches(github_token, git_email, git_username, workspace)
