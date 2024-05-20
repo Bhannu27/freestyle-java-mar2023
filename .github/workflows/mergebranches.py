@@ -1,4 +1,3 @@
-
 import os
 import subprocess
 import requests
@@ -18,6 +17,65 @@ def fetch_repository_details(repo_name, github_token):
         print(f"Failed to fetch repository details for {repo_name}.")
         print(f"Response: {response.text}")
         return None
+
+def enable_branch_protection(repo_name, github_token):
+    org_name = "Sanofi-GitHub"
+    url = f"https://api.github.com/repos/{org_name}/{repo_name}/branches/main/protection"
+    headers = {
+        "Authorization": f"Bearer {github_token}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+    protection_rules = {
+        "required_status_checks": None,
+        "enforce_admins": False,
+        "required_pull_request_reviews": None,
+        "restrictions": {
+            "users": [],
+            "teams": [""]
+        },
+        "dismiss_stale_reviews": False,
+        "require_code_owner_reviews": False,
+        "required_approving_review_count": False,
+        "require_last_push_approval": False,
+        "bypass_pull_request_allowances": False, 
+        "required_linear_history": True,
+        "allow_force_pushes": False,
+        "allow_deletions": False,
+        "block_creations": False,
+        "required_conversation_resolution": False,
+        "lock_branch": False
+        }
+    response = requests.put(url, headers=headers, json=protection_rules)
+    if response.status_code == 200:
+        print(f"Enabled branch protection rules for {repo_name}.")
+    else:
+        print(f"Failed to enable branch protection rules for {repo_name}.")
+        print(f"Response: {response.text}")
+ 
+#def disable_branch_protection(repo_name, github_token):
+ #   org_name = "Sanofi-GitHub"
+  #  url = f"https://api.github.com/repos/{org_name}/{repo_name}/branches/main/protection"
+   # headers = {
+    #    "Authorization": f"Bearer {github_token}",
+     #   "Accept": "application/vnd.github.v3+json"
+    #}
+    #protection_rules = {
+   #     "required_status_checks": None,
+   #     "enforce_admins": False,
+   #     "required_pull_request_reviews": None,
+   #     "restrictions": {
+   #         "users": [],
+   #         "teams": ["chc-admins"]
+   #     },
+   #     "allow_force_pushes": False,
+   #     "required_linear_history": True
+ #   }
+  #  response = requests.put(url, headers=headers, json=protection_rules)
+   # if response.status_code == 200:
+    #    print(f"Disabled branch protection rules for {repo_name}.")
+    #else:
+     #   print(f"Failed to disable branch protection rules for {repo_name}.")
+      #  print(f"Response: {response.text}")
  
 def merge_branches(github_token, git_email, git_username, workspace):
     main_branch = "main"
@@ -54,6 +112,8 @@ def merge_branches(github_token, git_email, git_username, workspace):
             # set the Git user email and username
             subprocess.run(["git", "config", "--global", "user.email", git_email])
             subprocess.run(["git", "config", "--global", "user.name", git_username])
+
+            enable_branch_protection(repo_name, github_token)
  
             # Checkout and pull latest changes from main branch
             print("Fetching the latest changes from main branch..",flush=True)
@@ -75,6 +135,8 @@ def merge_branches(github_token, git_email, git_username, workspace):
             # Push changes to GitHub
             print("Pushing changes", flush=True)
             subprocess.run(["git", "push", "origin", main_branch])
+
+         #   disable_branch_protection(repo_name, github_token)
             
             #navigate back to the initial directory
             os.chdir(current_dir)
